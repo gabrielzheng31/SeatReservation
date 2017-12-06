@@ -9,4 +9,6 @@
     <string name="login_password_hint">密码</string>
     <string name="login_hint">登录</string>
     <string name="login_title">寻座</string>
+    <string name="page_person_account">帐号</string>
+    <string name="page_person_settings">设置</string>
 </resources>
