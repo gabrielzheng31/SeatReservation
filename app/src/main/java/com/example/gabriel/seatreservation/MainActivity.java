@@ -28,10 +28,6 @@ public class MainActivity extends BaseActivity {
     private List<PersonPage> mPersonPageList = new ArrayList<>();
 //    private List<Fragment> fragments = new ArrayList<>();
 
-//    private PersonPageFragment pagePersonFragment;
-    private RecyclerView recyclerView;
-//    private FragmentManager fragmentManager;
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -139,6 +135,9 @@ public class MainActivity extends BaseActivity {
         PersonPage account = new PersonPage(R.string.page_person_account,
                 R.drawable.ic_account_circle_black_24dp);
         mPersonPageList.add(account);
+        PersonPage history = new PersonPage(R.string.page_person_history,
+                R.drawable.ic_history_black_24dp);
+        mPersonPageList.add(history);
         PersonPage settings = new PersonPage(R.string.page_person_settings,
                 R.drawable.ic_settings_black_24dp);
         mPersonPageList.add(settings);

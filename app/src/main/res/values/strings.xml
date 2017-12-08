@@ -11,4 +11,10 @@
     <string name="login_title">寻座</string>
     <string name="page_person_account">帐号</string>
     <string name="page_person_settings">设置</string>
+    <string name="login_forget_password">忘记密码？</string>
+    <string name="login_register">新用户注册</string>
+    <string name="settings_about">关于</string>
+    <string name="settings_feedback">反馈</string>
+    <string name="settings_quit">退出</string>
+    <string name="page_person_history">历史</string>
 </resources>

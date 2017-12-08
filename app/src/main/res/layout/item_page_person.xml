@@ -3,18 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/page_person_background"
     tools:ignore="UseCompoundDrawables">
 
-        <ImageView
-            android:id="@+id/item_page_person_image"
-            android:layout_width="32dp"
-            android:layout_height="32dp" />
+    <ImageView
+        android:id="@+id/item_page_person_image"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"/>
 
-        <TextView
-            android:id="@+id/item_page_person_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical" />
+    <TextView
+        android:id="@+id/item_page_person_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="16dp"
+        android:textSize="18sp" />
 
 </LinearLayout>
 

@@ -1,6 +1,6 @@
 package com.example.gabriel.seatreservation;
 
-import android.support.design.widget.Snackbar;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +17,7 @@ import java.util.List;
 public class PersonPageAdapter extends RecyclerView.Adapter<PersonPageAdapter.ViewHolder> {
 
     private List<PersonPage> mPersonPageList;
+//    private OnItemClickListener mOnItemClickListener = null;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         View mPersonPageView;
@@ -40,14 +41,22 @@ public class PersonPageAdapter extends RecyclerView.Adapter<PersonPageAdapter.Vi
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_page_person,
                 parent, false);
         final ViewHolder holder = new ViewHolder(view);
+        /*holder.mPersonPageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnItemClickListener.onItemClick(view,(int)view.getTag());
+            }
+        });*/
+
         holder.mPersonPageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position = holder.getAdapterPosition();
                 PersonPage personPage = mPersonPageList.get(position);
                 switch (position){
-                    case 0:
-
+                    case 2:
+                        Intent intent = new Intent(view.getContext(), SettingsActivity.class);
+                        view.getContext().startActivity(intent);
                 }
 
             }
@@ -60,11 +69,20 @@ public class PersonPageAdapter extends RecyclerView.Adapter<PersonPageAdapter.Vi
         PersonPage personPage = mPersonPageList.get(position);
         holder.mPersonPageImage.setImageResource(personPage.getImageId());
         holder.mPersonPageName.setText(personPage.getName());
+        holder.mPersonPageView.setTag(position);
     }
 
     @Override
     public int getItemCount() {
         return mPersonPageList.size();
     }
+
+    /*public static interface OnItemClickListener {
+        void onItemClick(View view , int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener mOnItemClickListener){
+        this.mOnItemClickListener = mOnItemClickListener;
+    }*/
 
 }
