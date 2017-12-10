@@ -17,7 +17,6 @@ import java.util.List;
 public class PersonPageAdapter extends RecyclerView.Adapter<PersonPageAdapter.ViewHolder> {
 
     private List<PersonPage> mPersonPageList;
-//    private OnItemClickListener mOnItemClickListener = null;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         View mPersonPageView;
