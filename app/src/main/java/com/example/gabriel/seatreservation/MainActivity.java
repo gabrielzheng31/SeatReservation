@@ -1,16 +1,12 @@
 package com.example.gabriel.seatreservation;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,7 +52,7 @@ public class MainActivity extends BaseActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         LayoutInflater inflater=getLayoutInflater();
         view_main = inflater.inflate(R.layout.layout1, null);
-        view_status = inflater.inflate(R.layout.layout2,null);
+        view_status = inflater.inflate(R.layout.page_status_logoff,null);
         view_person = inflater.inflate(R.layout.page_person, null);
 
 
@@ -143,4 +139,9 @@ public class MainActivity extends BaseActivity {
         mPersonPageList.add(settings);
     }
 
+    /*public static void init(Context mContext) {
+        Configure.USERID = SharedUtil.getString(mContext, "USERID");
+        if (!Util.checkNULL(Configure.USERID))
+            getUserInfo();
+    }*/
 }
