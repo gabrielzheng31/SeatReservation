@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.gabriel.seatreservation.LoginActivity;
 
@@ -29,6 +30,8 @@ public class LoginUtil {
                 @Override
                 public void postExec() {
                     // 登录回调后执行登录回调前需要做的操作
+                    SharedPreferences preferences = context.getSharedPreferences("user", 0);
+                    Configure.TOKEN = preferences.getString("TOKEN", "");
                     if (!Configure.TOKEN.isEmpty()) {
                         // 这里需要再次判断是否登录，防止用户取消登录，取消则不执行登录成功需要执行的回调操作
                         callBack.callBack();
@@ -40,12 +43,10 @@ public class LoginUtil {
 
             Context mContext = reference.get();
 
-            /*if (mContext != null) {
-                Intent intent = new Intent(mContext, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent);
+            if (mContext != null) {
+                LoginActivity.actionStart(mContext);
                 reference=null;
-            }*/
+            }
         } else {
             // 登录状态直接执行登录回调前需要做的操作
             callBack.callBack();

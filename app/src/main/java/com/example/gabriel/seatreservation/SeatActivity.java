@@ -31,9 +31,11 @@ public class SeatActivity extends BaseActivity {
 
             @Override
             public boolean isSold(int row, int column) {
-                /*if(row==6 && column==6){
+                if(row==6 && column==6 ||
+                        row ==5 && column ==4 ||
+                        row ==3 && column ==2){
                     return true;
-                }*/
+                }
                 return false;
             }
 

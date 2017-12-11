@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -24,7 +25,6 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MainActivity extends BaseActivity {
 
@@ -64,15 +64,24 @@ public class MainActivity extends BaseActivity {
 
         viewPager = findViewById(R.id.viewpager);
         final LayoutInflater inflater = getLayoutInflater();
-        view_main = inflater.inflate(R.layout.layout1, null);
+        view_main = inflater.inflate(R.layout.page_main, null);
         view_person = inflater.inflate(R.layout.page_person, null);
 
+        CardView cardView = view_main.findViewById(R.id.cardview);
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SeatActivity.actionStart(view.getContext());
+            }
+        });
+
         viewList.add(view_main);
+
+
 
         LoginUtil.checkLogin(MainActivity.this, new LoginUtil.LoginForCallBack() {
             @Override
             public void callBack() {
-
                 if (Configure.TOKEN == null || TextUtils.isEmpty(Configure.TOKEN)) {
                     view_status_logoff = true;
                 } else {
@@ -99,10 +108,10 @@ public class MainActivity extends BaseActivity {
                         }
                     });
                     if (Configure.STATUS == true) {
-                        view_status_login_0 = true;
+                        view_status_login_1 = true;
                     }
                     else {
-                        view_status_login_1 = true;
+                        view_status_login_0 = true;
                     }
                 }
             }
