@@ -2,12 +2,10 @@ package com.example.gabriel.seatreservation;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -16,15 +14,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.gabriel.seatreservation.utils.Configure;
 import com.example.gabriel.seatreservation.utils.HttpCallbackListener;
 import com.example.gabriel.seatreservation.utils.HttpUtil;
+import com.example.gabriel.seatreservation.utils.ShareUtil;
 import com.google.gson.Gson;
-
-import org.w3c.dom.Text;
 
 public class LoginActivity extends BaseActivity {
 
@@ -89,40 +85,61 @@ public class LoginActivity extends BaseActivity {
             });
         }
 
-        login = (Button)findViewById(R.id.login_button);
+        login = findViewById(R.id.login_button);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                id=(TextInputEditText)findViewById(R.id.login_IDInput);
-                key=(TextInputEditText)findViewById(R.id.login_PasswordInput);
+                id= findViewById(R.id.login_IDInput);
+                key= findViewById(R.id.login_PasswordInput);
                 String username = id.getText().toString();
                 String password = key.getText().toString();
 //                String address="http://138.68.254.73:8080/SeatReservation/login";
-                String address="http://172.26.40.63:8080/SeatReservation/login";
+//                String address="http://172.26.40.63:8080/SeatReservation/login";
+                String address="http://192.168.1.7:8080/SeatReservation/login";
 
                 if (username == null || TextUtils.isEmpty(username))
                     id.setError("用户名不能为空");
-
-                Log.d("ad", "daf");
 
                 HttpUtil.SendPost(address, username, password, new HttpCallbackListener() {
 
                     @Override
                     public void onFinish(String response) {
+                        Log.d("test", response);
                         Gson gson = new Gson();
-                        AccountData accountData = gson.fromJson(response, AccountData.class);
-                        if (accountData.getResCode() == 1) {
-
-                        } else if (accountData.getResCode() == 0) {
-                            Snackbar.make(view, "用户名或者密码错误", Snackbar.LENGTH_SHORT);
-                        } else {
-                            Snackbar.make(view, "连接超时，请重试", Snackbar.LENGTH_SHORT);
+                        LoginData loginData = gson.fromJson(response, LoginData.class);
+                        switch (loginData.getResCode()) {
+                            case 0:
+                                ShareUtil.hideKeyBoard(view.getContext(), view);
+                                Configure.TOKEN = loginData.getToken();
+                                SharedPreferences.Editor editor = getSharedPreferences("user",
+                                        MODE_PRIVATE).edit();
+                                editor.putString("TOKEN", loginData.getToken());
+                                editor.apply();
+                                Snackbar.make(login, "登录成功", Snackbar.LENGTH_SHORT).show();
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            Thread.sleep(2000);
+                                            ActivityCollector.finishAll();
+                                            MainActivity.actionStart(view.getContext());
+                                        } catch (InterruptedException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }).start();
+                                break;
+                            case 1:
+                                ShareUtil.hideKeyBoard(view.getContext(), view);
+                                Snackbar.make(view, "用户名或者密码错误", Snackbar.LENGTH_SHORT).show();
+                                break;
                         }
                     }
 
                     @Override
                     public void onError(Exception e) {
-                        Snackbar.make(view, "连接超时，请重试", Snackbar.LENGTH_SHORT);
+
                     }
                 });
             }

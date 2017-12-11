@@ -26,8 +26,8 @@ public class PersonPageAdapter extends RecyclerView.Adapter<PersonPageAdapter.Vi
         public ViewHolder(View view) {
             super(view);
             mPersonPageView = view;
-            mPersonPageImage = (ImageView) view.findViewById(R.id.item_page_person_image);
-            mPersonPageName = (TextView) view.findViewById(R.id.item_page_person_name);
+            mPersonPageImage = view.findViewById(R.id.item_page_person_image);
+            mPersonPageName = view.findViewById(R.id.item_page_person_name);
         }
     }
 

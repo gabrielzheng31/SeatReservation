@@ -1,14 +1,12 @@
 package com.example.gabriel.seatreservation;
 
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -17,17 +15,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.gabriel.seatreservation.utils.HttpCallbackListener;
 import com.example.gabriel.seatreservation.utils.HttpUtil;
 import com.google.gson.Gson;
 
 import com.example.gabriel.seatreservation.utils.ShareUtil;
-
-import org.w3c.dom.Text;
 
 public class RegisterActivity extends BaseActivity {
 
@@ -52,7 +45,7 @@ public class RegisterActivity extends BaseActivity {
         registerButton = findViewById(R.id.register_button);
 
 
-        ViewParent idParent = id.getParent();
+        final ViewParent idParent = id.getParent();
         if (idParent != null && idParent instanceof TextInputLayout) {
             final TextInputLayout idLayout = (TextInputLayout) idParent;
             id.addTextChangedListener(new TextWatcher() {
@@ -123,7 +116,8 @@ public class RegisterActivity extends BaseActivity {
                 String password = key.getText().toString();
                 String passwordConfirm = keyConfirm.getText().toString();
 //                String address="http://138.68.254.73:8080/SeatReservation/register";
-                String address = "http://172.26.40.63:8080/SeatReservation/register";
+//                String address = "http://172.26.40.63:8080/SeatReservation/register";
+                String address="http://192.168.1.7:8080/SeatReservation/login";
 
                 boolean usernameStatus = (username == null || TextUtils.isEmpty(username));
                 boolean passwordStatus = (password == null || TextUtils.isEmpty(password));
@@ -138,16 +132,18 @@ public class RegisterActivity extends BaseActivity {
 
                 if (passwordConfirmStatus)
                     keyConfirm.setError("密码不一致，请重试");
+
                 if (!(usernameStatus || passwordConfirmStatus || passwordConfirmStatus)) {
                     HttpUtil.SendPost(address, username, password, new HttpCallbackListener() {
 
                         @Override
                         public void onFinish(String response) {
+                            Log.d("test", response);
                             Gson gson = new Gson();
-                            AccountData accountData = gson.fromJson(response, AccountData.class);
-                            switch (accountData.getResCode()) {
-                                case 100:
-                                    ShareUtil.hideKeyBoard(view.getContext());
+                            RegisterData registerData = gson.fromJson(response, RegisterData.class);
+                            switch (registerData.getResCode()) {
+                                case 0:
+                                    ShareUtil.hideKeyBoard(view.getContext(), view);
                                     Snackbar.make(registerButton, "注册成功，正在前往登录界面...", Snackbar.LENGTH_SHORT).show();
                                     new Thread(new Runnable() {
                                         @Override
@@ -162,12 +158,12 @@ public class RegisterActivity extends BaseActivity {
                                             }
                                         }
                                     }).start();
+                                    ActivityCollector.finishAll();
+                                    LoginActivity.actionStart(view.getContext());
                                     break;
-                                case 201:
-                                    Log.d("abc", "ok");
-                                    ShareUtil.hideKeyBoard(view.getContext());
-                                    Snackbar.make(registerButton, "注册成功，正在前往登录界面...", Snackbar.LENGTH_SHORT).show();
-//                                    id.setError("用户名已存在");
+                                case 1:
+                                    ShareUtil.hideKeyBoard(view.getContext(), view);
+                                    id.setError("用户名已存在");
                                     Snackbar.make(registerButton, "用户名已存在", Snackbar.LENGTH_SHORT).show();
                                     break;
                                 default:

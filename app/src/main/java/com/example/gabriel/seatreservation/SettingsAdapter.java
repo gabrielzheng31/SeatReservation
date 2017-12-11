@@ -29,7 +29,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
         public ViewHolder(View view) {
             super(view);
             mSettingsView = view;
-            mSettingsName = (TextView) view.findViewById(R.id.item_settings_name);
+            mSettingsName = view.findViewById(R.id.item_settings_name);
         }
     }
 

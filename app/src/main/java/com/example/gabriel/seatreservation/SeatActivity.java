@@ -15,7 +15,7 @@ public class SeatActivity extends BaseActivity {
 
         setContentView(R.layout.activity_seat);
 
-        seatTableView = (SeatTable) findViewById(R.id.seatView);
+        seatTableView = findViewById(R.id.seatView);
         seatTableView.setScreenName("教411");//设置屏幕名称
         seatTableView.setMaxSelected(1);//设置最多选中
 

@@ -1,5 +1,7 @@
 package com.example.gabriel.seatreservation;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.PagerAdapter;
@@ -7,21 +9,32 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.gabriel.seatreservation.utils.Configure;
+import com.example.gabriel.seatreservation.utils.HttpCallbackListener;
+import com.example.gabriel.seatreservation.utils.HttpUtil;
+import com.example.gabriel.seatreservation.utils.LoginUtil;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MainActivity extends BaseActivity {
 
 
     private View view_main, view_status, view_person;
     private ViewPager viewPager;
-    private List<View> viewList;
+    private List<View> viewList = new ArrayList<View>();;
     private List<PersonPage> mPersonPageList = new ArrayList<>();
+    private boolean view_status_logoff, view_status_login_0, view_status_login_1;
+
 //    private List<Fragment> fragments = new ArrayList<>();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -49,15 +62,60 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        LayoutInflater inflater=getLayoutInflater();
+        viewPager = findViewById(R.id.viewpager);
+        final LayoutInflater inflater = getLayoutInflater();
         view_main = inflater.inflate(R.layout.layout1, null);
-        view_status = inflater.inflate(R.layout.page_status_logoff,null);
         view_person = inflater.inflate(R.layout.page_person, null);
 
-
-        viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
         viewList.add(view_main);
+
+        LoginUtil.checkLogin(MainActivity.this, new LoginUtil.LoginForCallBack() {
+            @Override
+            public void callBack() {
+
+                if (Configure.TOKEN == null || TextUtils.isEmpty(Configure.TOKEN)) {
+                    view_status_logoff = true;
+                } else {
+//                    String address="http://172.26.40.63:8080/SeatReservation/login";
+                    String address="http://192.168.1.7:8080/SeatReservation/login";
+                    HttpUtil.GetReservedStatus(Configure.TOKEN, address, new HttpCallbackListener() {
+                        @Override
+                        public void onFinish(String response) {
+                            Log.d("test", response);
+                            Gson gson = new Gson();
+                            UserData userData = gson.fromJson(response, UserData.class);
+                            switch (userData.getResCode()) {
+                                case 0:
+                                    Configure.STATUS = userData.getResStatus();
+                                    break;
+                                case 1:
+                                    break;
+                            }
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
+                    if (Configure.STATUS == true) {
+                        view_status_login_0 = true;
+                    }
+                    else {
+                        view_status_login_1 = true;
+                    }
+                }
+            }
+        });
+
+        if (view_status_logoff) {
+            view_status = inflater.inflate(R.layout.page_status_logoff, null);
+        } else if (view_status_login_0) {
+            view_status = inflater.inflate(R.layout.page_status_login_0, null);
+        } else {
+            view_status = inflater.inflate(R.layout.page_status_login_1, null);
+        }
+
         viewList.add(view_status);
 
         initPersonPage();
@@ -71,34 +129,32 @@ public class MainActivity extends BaseActivity {
 
         PagerAdapter pagerAdapter = new PagerAdapter() {
 
-            @Override
-            public boolean isViewFromObject(View arg0, Object arg1) {
-                // TODO Auto-generated method stub
-                return arg0 == arg1;
-            }
+                    @Override
+                    public boolean isViewFromObject(View arg0, Object arg1) {
+                        // TODO Auto-generated method stub
+                        return arg0 == arg1;
+                    }
 
-            @Override
-            public int getCount() {
-                // TODO Auto-generated method stub
-                return viewList.size();
-            }
+                    @Override
+                    public int getCount() {
+                        // TODO Auto-generated method stub
+                        return viewList.size();
+                    }
 
-            @Override
-            public void destroyItem(ViewGroup container, int position,
-                                    Object object) {
-                // TODO Auto-generated method stub
-                container.removeView(viewList.get(position));
-            }
+                    @Override
+                    public void destroyItem(ViewGroup container, int position,
+                                            Object object) {
+                        // TODO Auto-generated method stub
+                        container.removeView(viewList.get(position));
+                    }
 
-            @Override
-            public Object instantiateItem(ViewGroup container, int position) {
-                // TODO Auto-generated method stub
-                container.addView(viewList.get(position));
-
-
-                return viewList.get(position);
-            }
-        };
+                    @Override
+                    public Object instantiateItem(ViewGroup container, int position) {
+                        // TODO Auto-generated method stub
+                        container.addView(viewList.get(position));
+                        return viewList.get(position);
+                    }
+                };
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -122,7 +178,7 @@ public class MainActivity extends BaseActivity {
         viewPager.setAdapter(pagerAdapter);
 
 
-        final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        final BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
     }
@@ -137,6 +193,11 @@ public class MainActivity extends BaseActivity {
         PersonPage settings = new PersonPage(R.string.page_person_settings,
                 R.drawable.ic_settings_black_24dp);
         mPersonPageList.add(settings);
+    }
+
+    public static void actionStart(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
     }
 
     /*public static void init(Context mContext) {

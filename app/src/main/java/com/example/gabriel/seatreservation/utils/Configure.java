@@ -6,7 +6,11 @@ package com.example.gabriel.seatreservation.utils;
 
 public class Configure {
 
+    public static String USER = "";
+
     public static String TOKEN = "";
+
+    public static boolean STATUS;
 
     public static LoginUtil.ICallBack CALLBACK;
 

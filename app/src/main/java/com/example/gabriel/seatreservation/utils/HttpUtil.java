@@ -56,19 +56,61 @@ public class HttpUtil {
         }).start();
     }
 
-    public static void SelectSeat(final String address,final int SeatId,final HttpCallbackListener listener){
-        new Thread(new Runnable(){
+    public static void GetReservedStatus(final String token, final String address,
+                                         final HttpCallbackListener listener) {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 HttpURLConnection connection = null;
                 try {
                     URL url = new URL(address);
                     connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
+                    connection.setRequestMethod("POST");
                     connection.setConnectTimeout(8000);
                     connection.setReadTimeout(8000);
                     connection.setDoInput(true);
                     connection.setDoOutput(true);
+                    DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+                    out.writeBytes("token"+token);
+                    InputStream in = connection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    if (listener != null) {
+                        listener.onFinish(response.toString());
+                    }
+
+                } catch (Exception e) {
+                    if (listener != null) {
+                        listener.onError(e);
+                    }
+                }finally{
+                    if (connection != null) {
+                        connection.disconnect();
+                    }
+                }
+            }
+        }).start();
+    }
+
+    public static void CheckFreeSeat(final String SeatId,final String time,final HttpCallbackListener listener){
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                HttpURLConnection connection = null;
+                try {
+                    URL url = new URL("http://172.26.40.63:8080/SeatReservation/freeseat");
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setConnectTimeout(8000);
+                    connection.setReadTimeout(8000);
+                    connection.setDoInput(true);
+                    connection.setDoOutput(true);
+                    DataOutputStream out=new DataOutputStream(connection.getOutputStream());
+                    out.writeBytes("seat="+SeatId+"&time="+time);
                     InputStream in = connection.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                     StringBuilder response = new StringBuilder();
@@ -93,4 +135,84 @@ public class HttpUtil {
         }).start();
     }
 
+    public static void ReserveSeat(final String SeatId,final String time,final HttpCallbackListener listener){
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                HttpURLConnection connection = null;
+                try {
+                    URL url = new URL("http://172.26.40.63:8080/SeatReservation/reserve");
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setConnectTimeout(8000);
+                    connection.setReadTimeout(8000);
+                    connection.setDoInput(true);
+                    connection.setDoOutput(true);
+                    DataOutputStream out=new DataOutputStream(connection.getOutputStream());
+                    out.writeBytes("seat="+SeatId+"&time="+time);
+                    InputStream in = connection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    if (listener != null) {
+                        listener.onFinish(response.toString());
+                    }
+                } catch (Exception e) {
+                    if (listener != null) {
+                        listener.onError(e);
+                    }
+                }finally{
+                    if (connection != null) {
+                        connection.disconnect();
+                    }
+                }
+            }
+
+        }).start();
+    }
+    public static void CheckFreeTime(final String SeatId,final String time,final HttpCallbackListener listener){
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                HttpURLConnection connection = null;
+                try {
+                    URL url = new URL("http://172.26.40.63:8080/SeatReservation/freetime");
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setConnectTimeout(8000);
+                    connection.setReadTimeout(8000);
+                    connection.setDoInput(true);
+                    connection.setDoOutput(true);
+                    DataOutputStream out=new DataOutputStream(connection.getOutputStream());
+                    out.writeBytes("seat="+SeatId+"&time="+time);
+                    InputStream in = connection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    if (listener != null) {
+                        listener.onFinish(response.toString());
+                    }
+                } catch (Exception e) {
+                    if (listener != null) {
+                        listener.onError(e);
+                    }
+                }finally{
+                    if (connection != null) {
+                        connection.disconnect();
+                    }
+                }
+            }
+
+        }).start();
+    }
+    public static String time_string(int time){
+        time-=7;
+        return time+"";
+    }
 }

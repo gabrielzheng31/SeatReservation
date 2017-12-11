@@ -4,20 +4,26 @@ package com.example.gabriel.seatreservation;
  * Created by gabriel on 17-12-11.
  */
 
-public class AccountData {
+public class LoginData {
 
     private int resCode;
 
-    private String msg;
+    private String resMsg;
 
     private String token;
+
+    private String UserId;
 
     public int getResCode() {
         return resCode;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getResMsg() {
+        return resMsg;
+    }
+
+    public String getUserId() {
+        return UserId;
     }
 
     public String getToken() {
@@ -28,11 +34,16 @@ public class AccountData {
         this.resCode = resCode;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setResMsg(String msg) {
+        this.resMsg = msg;
     }
 
     public void setToken(String token) {
         this.token = token;
     }
+
+    public void setUserID(String token) {
+        this.UserId = token;
+    }
+
 }
