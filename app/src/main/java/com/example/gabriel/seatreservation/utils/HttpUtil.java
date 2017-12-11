@@ -96,13 +96,13 @@ public class HttpUtil {
         }).start();
     }
 
-    public static void CheckFreeSeat(final String SeatId,final String time,final HttpCallbackListener listener){
+    public static void CheckFreeSeat(final String time,final HttpCallbackListener listener){
         new Thread(new Runnable(){
             @Override
             public void run() {
                 HttpURLConnection connection = null;
                 try {
-                    URL url = new URL("http://172.26.40.63:8080/SeatReservation/freeseat");
+                    URL url = new URL("http://138.68.254.73:8080/SeatReservation/freeseat");
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setConnectTimeout(8000);
@@ -110,7 +110,7 @@ public class HttpUtil {
                     connection.setDoInput(true);
                     connection.setDoOutput(true);
                     DataOutputStream out=new DataOutputStream(connection.getOutputStream());
-                    out.writeBytes("seat="+SeatId+"&time="+time);
+                    out.writeBytes("time="+time);
                     InputStream in = connection.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                     StringBuilder response = new StringBuilder();
@@ -141,7 +141,7 @@ public class HttpUtil {
             public void run() {
                 HttpURLConnection connection = null;
                 try {
-                    URL url = new URL("http://172.26.40.63:8080/SeatReservation/reserve");
+                    URL url = new URL("http://138.68.254.73:8080/SeatReservation/reserve");
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setConnectTimeout(8000);
@@ -179,7 +179,7 @@ public class HttpUtil {
             public void run() {
                 HttpURLConnection connection = null;
                 try {
-                    URL url = new URL("http://172.26.40.63:8080/SeatReservation/freetime");
+                    URL url = new URL("http://138.68.254.73:8080/SeatReservation/freetime");
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setConnectTimeout(8000);

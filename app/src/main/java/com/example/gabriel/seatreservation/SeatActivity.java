@@ -4,6 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
+import android.widget.TimePicker;
+
+import com.example.gabriel.seatreservation.utils.HttpCallbackListener;
+import com.example.gabriel.seatreservation.utils.HttpUtil;
+
+import java.sql.Time;
+import java.util.Calendar;
 
 public class SeatActivity extends BaseActivity {
 
@@ -14,10 +24,25 @@ public class SeatActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_seat);
-
         seatTableView = findViewById(R.id.seatView);
         seatTableView.setScreenName("教411");//设置屏幕名称
         seatTableView.setMaxSelected(1);//设置最多选中
+
+        Spinner spinnerStart = findViewById(R.id.spinner_start);
+        Spinner spinnerEnd = findViewById(R.id.spinner_end);
+        int startTime = ((int) spinnerStart.getSelectedItem()) - 7;
+
+        HttpUtil.CheckFreeSeat(HttpUtil.time_string(startTime), new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) {
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
 
         seatTableView.setSeatChecker(new SeatTable.SeatChecker() {
 

@@ -115,9 +115,9 @@ public class RegisterActivity extends BaseActivity {
                 String username = id.getText().toString();
                 String password = key.getText().toString();
                 String passwordConfirm = keyConfirm.getText().toString();
-//                String address="http://138.68.254.73:8080/SeatReservation/register";
-//                String address = "http://172.26.40.63:8080/SeatReservation/register";
-                String address="http://192.168.1.7:8080/SeatReservation/login";
+                String address="http://138.68.254.73:8080/SeatReservation/register";
+//                String address = "http://172.26.40.36:8080/SeatReservation/register";
+//                String address="http://192.168.1.7:8080/SeatReservation/login";
 
                 boolean usernameStatus = (username == null || TextUtils.isEmpty(username));
                 boolean passwordStatus = (password == null || TextUtils.isEmpty(password));

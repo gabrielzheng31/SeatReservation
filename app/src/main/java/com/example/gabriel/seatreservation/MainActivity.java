@@ -85,8 +85,8 @@ public class MainActivity extends BaseActivity {
                 if (Configure.TOKEN == null || TextUtils.isEmpty(Configure.TOKEN)) {
                     view_status_logoff = true;
                 } else {
-//                    String address="http://172.26.40.63:8080/SeatReservation/login";
-                    String address="http://192.168.1.7:8080/SeatReservation/login";
+                    String address="http://172.26.40.36:8080/SeatReservation/login";
+//                    String address="http://192.168.1.7:8080/SeatReservation/login";
                     HttpUtil.GetReservedStatus(Configure.TOKEN, address, new HttpCallbackListener() {
                         @Override
                         public void onFinish(String response) {

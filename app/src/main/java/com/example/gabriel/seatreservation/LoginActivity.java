@@ -93,9 +93,9 @@ public class LoginActivity extends BaseActivity {
                 key= findViewById(R.id.login_PasswordInput);
                 String username = id.getText().toString();
                 String password = key.getText().toString();
-//                String address="http://138.68.254.73:8080/SeatReservation/login";
-//                String address="http://172.26.40.63:8080/SeatReservation/login";
-                String address="http://192.168.1.7:8080/SeatReservation/login";
+                String address="http://138.68.254.73:8080/SeatReservation/login";
+//                String address="http://172.26.40.36:8080/SeatReservation/login";
+//                String address="http://192.168.1.7:8080/SeatReservation/login";
 
                 if (username == null || TextUtils.isEmpty(username))
                     id.setError("用户名不能为空");
