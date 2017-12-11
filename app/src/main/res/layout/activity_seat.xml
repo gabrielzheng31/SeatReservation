@@ -9,8 +9,36 @@
 
     <com.example.gabriel.seatreservation.SeatTable
         android:id="@+id/seatView"
-        android:background="#ffffff"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        tools:layout_editor_absoluteX="89dp"
+        tools:layout_editor_absoluteY="463dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        tools:layout_editor_absoluteX="203dp"
+        tools:layout_editor_absoluteY="462dp" />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="202dp"
+        android:layout_height="174dp"
+        app:cardBackgroundColor="@android:color/holo_blue_bright"
+        tools:layout_editor_absoluteX="48dp"
+        tools:layout_editor_absoluteY="58dp" />
+
 
 </android.support.constraint.ConstraintLayout>

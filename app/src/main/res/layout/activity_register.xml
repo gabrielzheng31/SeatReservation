@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.gabriel.seatreservation.LoginActivity"
-    tools:layout_editor_absoluteY="81dp">
+    tools:context="com.example.gabriel.seatreservation.RegisterActivity">
 
     <ImageView
-        android:id="@+id/login_imageView"
+        android:id="@+id/register_imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="fitXY"
@@ -19,44 +18,43 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/login_title"
+        android:id="@+id/register_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="48dp"
         android:fontFamily="@font/roboto"
-        android:text="@string/login_title"
+        android:text="@string/register_title"
         android:textColor="@android:color/background_light"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/login_IDInputLayout"
+        android:id="@+id/register_IDInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:textColorHint="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_title">
+        app:layout_constraintTop_toBottomOf="@+id/register_title">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/login_IDInput"
+            android:id="@+id/register_IDInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:hint="@string/login_id_hint"
+            android:hint="@string/register_id_hint"
             android:singleLine="true"
-            android:textColor="@android:color/background_light"
-            />
+            android:textColor="@android:color/background_light" />
 
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/login_PasswordInputLayout"
+        android:id="@+id/register_PasswordInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -65,14 +63,38 @@
         android:textColorHint="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_IDInputLayout">
+        app:layout_constraintTop_toBottomOf="@+id/register_IDInputLayout">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/login_PasswordInput"
+            android:id="@+id/register_PasswordInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:hint="@string/login_password_hint"
+            android:hint="@string/register_password_hint"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textColor="@android:color/background_light" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/register_PasswordInputConfirmLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:textColorHint="@android:color/background_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_PasswordInputLayout">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/register_PasswordInputConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/register_password_confirm_hint"
             android:inputType="textPassword"
             android:singleLine="true"
             android:textColor="@android:color/background_light" />
@@ -80,46 +102,22 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@+id/login_button"
-        android:layout_width="0dp"
+        android:id="@+id/register_button"
+        android:layout_width="336dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:alpha="0.3"
         android:background="@drawable/login_register_button"
         android:fontFamily="@font/roboto"
-        android:text="@string/login_hint"
+        android:text="@string/register_hint"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_PasswordInputLayout" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/login_forget_password"
-        android:textColor="@android:color/background_light"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button" />
-
-    <TextView
-        android:id="@+id/login_to_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/login_register"
-        android:textColor="@android:color/background_light"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_PasswordInputConfirmLayout" />
 
 
 </android.support.constraint.ConstraintLayout>

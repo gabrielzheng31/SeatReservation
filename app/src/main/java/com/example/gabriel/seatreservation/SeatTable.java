@@ -261,12 +261,12 @@ public class SeatTable extends View {
     /**
      * 默认的座位图宽度,如果使用的自己的座位图片比这个尺寸大或者小,会缩放到这个大小
      */
-    private float defaultImgW = 40;
+    private float defaultImgW = 80;
 
     /**
      * 默认的座位图高度
      */
-    private float defaultImgH = 34;
+    private float defaultImgH = 68;
 
     /**
      * 座位图片的宽度
@@ -335,8 +335,8 @@ public class SeatTable extends View {
         paint.setColor(Color.RED);
         numberWidth = (int) dip2Px(20);
 
-        screenHeight = dip2Px(20);
-        headHeight = dip2Px(30);
+        screenHeight = dip2Px(30);
+        headHeight = dip2Px(50);
 
         headPaint = new Paint();
         headPaint.setStyle(Paint.Style.FILL);
@@ -510,7 +510,7 @@ public class SeatTable extends View {
 
         float checkedSeatBitmapX = soldSeatBitmapY + seatSoldBitmap.getWidth() + spacing1 + txtWidth + spacing;
         tempMatrix.setScale(xScale1,yScale1);
-        tempMatrix.postTranslate(checkedSeatBitmapX,y);
+        tempMatrix.postTranslate(checkedSeatBitmapX,(headHeight - seatHeight) / 2);
         canvas.drawBitmap(checkedSeatBitmap, tempMatrix, headPaint);
         canvas.drawText("已选", checkedSeatBitmapX + spacing1 + seatWidth, txtY, headPaint);
 

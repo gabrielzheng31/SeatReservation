@@ -16,24 +16,24 @@ public class SeatActivity extends BaseActivity {
         setContentView(R.layout.activity_seat);
 
         seatTableView = (SeatTable) findViewById(R.id.seatView);
-        seatTableView.setScreenName("8号厅荧幕");//设置屏幕名称
-        seatTableView.setMaxSelected(3);//设置最多选中
+        seatTableView.setScreenName("教411");//设置屏幕名称
+        seatTableView.setMaxSelected(1);//设置最多选中
 
         seatTableView.setSeatChecker(new SeatTable.SeatChecker() {
 
             @Override
             public boolean isValidSeat(int row, int column) {
-                if(column==2) {
+                /*if(column==2) {
                     return false;
-                }
+                }*/
                 return true;
             }
 
             @Override
             public boolean isSold(int row, int column) {
-                if(row==6&&column==6){
+                /*if(row==6 && column==6){
                     return true;
-                }
+                }*/
                 return false;
             }
 
@@ -53,7 +53,8 @@ public class SeatActivity extends BaseActivity {
             }
 
         });
-        seatTableView.setData(10,15);
+
+        seatTableView.setData(7,7);
 
     }
 

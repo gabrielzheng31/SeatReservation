@@ -18,4 +18,9 @@
     <string name="settings_quit">退出</string>
     <string name="page_person_history">历史</string>
     <string name="settings_logoff">注销</string>
+    <string name="register_title">用户注册</string>
+    <string name="register_id_hint">帐号</string>
+    <string name="register_password_hint">密码</string>
+    <string name="register_password_confirm_hint">确认密码</string>
+    <string name="register_hint">注册</string>
 </resources>

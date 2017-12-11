@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.gabriel.seatreservation">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,7 +27,10 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".SeatActivity"></activity>
+        <activity android:name=".SeatActivity" />
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

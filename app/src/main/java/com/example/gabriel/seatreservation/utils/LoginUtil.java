@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference;
 
 public class LoginUtil {
 
-    public  static void checkLogin(Context context, final LoginForCallBack callBack) {
+    public static void checkLogin(Context context, final LoginForCallBack callBack) {
         // 弱引用，防止内存泄露，
         WeakReference<Context>   reference= new WeakReference<Context>(context);
         if (Configure.TOKEN.isEmpty()) { // 判断是否登录，否返回true

@@ -54,7 +54,7 @@ public class PersonPageAdapter extends RecyclerView.Adapter<PersonPageAdapter.Vi
                 PersonPage personPage = mPersonPageList.get(position);
                 switch (position){
                     case 0:
-                        SeatActivity.actionStart(view.getContext());
+                        LoginActivity.actionStart(view.getContext());
                         break;
                     case 2:
                         Intent intent = new Intent(view.getContext(), SettingsActivity.class);
