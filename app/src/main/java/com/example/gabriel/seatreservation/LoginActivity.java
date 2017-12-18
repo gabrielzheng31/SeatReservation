@@ -16,6 +16,7 @@ import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.gabriel.seatreservation.data.LoginData;
 import com.example.gabriel.seatreservation.utils.Configure;
 import com.example.gabriel.seatreservation.utils.HttpCallbackListener;
 import com.example.gabriel.seatreservation.utils.HttpUtil;

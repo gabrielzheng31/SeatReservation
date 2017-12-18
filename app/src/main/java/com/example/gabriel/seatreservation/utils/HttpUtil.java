@@ -56,14 +56,14 @@ public class HttpUtil {
         }).start();
     }
 
-    public static void GetReservedStatus(final String token, final String address,
+    public static void GetReservedStatus(final String token,
                                          final HttpCallbackListener listener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 HttpURLConnection connection = null;
                 try {
-                    URL url = new URL(address);
+                    URL url = new URL("http://138.68.254.73:8080/SeatReservation/getuserinfo");
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setConnectTimeout(8000);
@@ -136,7 +136,7 @@ public class HttpUtil {
         }).start();
     }
 
-    public static void ReserveSeat(final String SeatId,final String begin,final String end,
+    public static void ReserveSeat(final int SeatId,final int begin,final int end,
                                    final String token ,final HttpCallbackListener listener){
         new Thread(new Runnable(){
             @Override
@@ -174,10 +174,5 @@ public class HttpUtil {
             }
 
         }).start();
-    }
-
-    public static String time_string(int time){
-        time-=7;
-        return time+"";
     }
 }

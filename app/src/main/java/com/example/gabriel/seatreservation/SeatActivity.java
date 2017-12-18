@@ -1,24 +1,24 @@
 package com.example.gabriel.seatreservation;
 
-import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.Snackbar;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.example.gabriel.seatreservation.data.ReservationData;
+import com.example.gabriel.seatreservation.data.SeatData;
+import com.example.gabriel.seatreservation.data.UserData;
 import com.example.gabriel.seatreservation.utils.Configure;
 import com.example.gabriel.seatreservation.utils.HttpCallbackListener;
 import com.example.gabriel.seatreservation.utils.HttpUtil;
@@ -27,7 +27,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -277,8 +276,45 @@ public class SeatActivity extends BaseActivity {
         button_confirm = findViewById(R.id.button_confirm);
         button_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
+                if (Configure.TOKEN == null || TextUtils.isEmpty(Configure.TOKEN)) {
+                    Snackbar.make(view, "您尚未登录", Snackbar.LENGTH_SHORT);
+                } else {
+                    HttpUtil.GetReservedStatus(Configure.TOKEN, new HttpCallbackListener() {
+                        @Override
+                        public void onFinish(String response) {
+                            Log.d("reservation", response);
+                            Gson gson = new Gson();
+                            UserData userData = gson.fromJson(response, UserData.class);
+                            switch (userData.getResCode()) {
+                                case 0:
+                                    HttpUtil.ReserveSeat((Configure.temp.first + 1) * row + Configure.temp.second + 1,
+                                            start[0], end[0], Configure.TOKEN, new HttpCallbackListener() {
+                                                @Override
+                                                public void onFinish(String response) {
+                                                    MainActivity.actionStart(view.getContext());
+                                                }
 
+                                                @Override
+                                                public void onError(Exception e) {
+
+                                                }
+                                            });
+                                    Snackbar.make(view, "预约成功", Snackbar.LENGTH_SHORT).show();
+                                    SeatActivity.this.finish();
+                                    break;
+                                case 1:
+                                    Snackbar.make(view, "您当前已有预约", Snackbar.LENGTH_SHORT).show();
+                                    break;
+                            }
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
+                }
             }
         });
 

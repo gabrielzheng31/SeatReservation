@@ -17,11 +17,13 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.gabriel.seatreservation.data.ReservationData;
+import com.example.gabriel.seatreservation.data.UserData;
 import com.example.gabriel.seatreservation.utils.Configure;
 import com.example.gabriel.seatreservation.utils.HttpCallbackListener;
 import com.example.gabriel.seatreservation.utils.HttpUtil;
-import com.example.gabriel.seatreservation.utils.LoginUtil;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -87,9 +89,7 @@ public class MainActivity extends BaseActivity {
             view_status_logoff = true;
         } else {
             view_status_logoff = false;
-            String address="http://138.68.254.73:8080/SeatReservation/getuserinfo";
-//                    String address="http://192.168.1.7:8080/SeatReservation/login";
-            HttpUtil.GetReservedStatus(Configure.TOKEN, address, new HttpCallbackListener() {
+            HttpUtil.GetReservedStatus(Configure.TOKEN, new HttpCallbackListener() {
                 @Override
                 public void onFinish(String response) {
                     Log.d("test", response);
@@ -116,9 +116,32 @@ public class MainActivity extends BaseActivity {
             view_status = inflater.inflate(R.layout.page_status_logoff, null);
         } else if (view_status_reserved) {
             view_status = inflater.inflate(R.layout.page_status_login_1, null);
-        } else {
+            HttpUtil.GetReservedStatus(Configure.TOKEN, new HttpCallbackListener() {
+                @Override
+                public void onFinish(String response) {
+                    Log.d("zxcv", response);
+                    Gson gson = new Gson();
+                    UserData userData = gson.fromJson(response, UserData.class);
+                    TextView date = view_status.findViewById(R.id.res_date);
+                    TextView start = view_status.findViewById(R.id.res_start_time);
+                    TextView end = view_status.findViewById(R.id.res_end_time);
+                    date.setText("预约日期："+userData.getDate());
+                    start.setText("开始时间："+userData.getBeginTime());
+                    end.setText("结束时间："+userData.getEndTime());
+                }
+
+                @Override
+                public void onError(Exception e) {
+
+                }
+            });
+
+        } else if (!view_status_reserved){
             view_status = inflater.inflate(R.layout.page_status_login_0, null);
         }
+
+
+
 
         viewList.add(view_status);
 

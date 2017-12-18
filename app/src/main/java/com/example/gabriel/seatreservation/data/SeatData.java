@@ -1,4 +1,4 @@
-package com.example.gabriel.seatreservation;
+package com.example.gabriel.seatreservation.data;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.gabriel.seatreservation;
+package com.example.gabriel.seatreservation.data;
 
 /**
  * Created by gabriel on 17-12-11.
