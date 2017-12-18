@@ -22,11 +22,13 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -379,7 +381,6 @@ public class SeatTable extends View {
                 lineNumbers.add((i + 1) + "");
             }
         }
-
 
         matrix.postTranslate(numberWidth + spacing, headHeight + screenHeight + borderHeight + verSpacing);
 
@@ -1083,6 +1084,8 @@ public class SeatTable extends View {
                     int tempY = (int) ((i * seatHeight + i * verSpacing) * getMatrixScaleY() + getTranslateY());
                     int maxTempY = (int) (tempY + seatHeight * getMatrixScaleY());
 
+                    TextView textView = getRootView().findViewById(R.id.seat);
+
                     if (seatChecker != null && seatChecker.isValidSeat(i, j) && !seatChecker.isSold(i, j)) {
                         if (x >= tempX && x <= maxTemX && y >= tempY && y <= maxTempY) {
                             int id = getID(i, j);
@@ -1091,6 +1094,7 @@ public class SeatTable extends View {
                                 remove(index);
                                 if (seatChecker != null) {
                                     seatChecker.unCheck(i, j);
+                                    textView.setText("请选择");
                                 }
                             } else {
                                 if (selects.size() >= maxSelected) {
@@ -1098,8 +1102,10 @@ public class SeatTable extends View {
                                     return super.onSingleTapConfirmed(e);
                                 } else {
                                     addChooseSeat(i, j);
+                                    SeatActivity.setChecked_seat(new Pair<Integer, Integer>(i, j));
                                     if (seatChecker != null) {
                                         seatChecker.checked(i, j);
+                                        textView.setText((i+1)+"行"+(j+1)+"列");
                                     }
                                 }
                             }

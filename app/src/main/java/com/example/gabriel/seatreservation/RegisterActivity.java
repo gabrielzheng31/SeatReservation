@@ -158,8 +158,6 @@ public class RegisterActivity extends BaseActivity {
                                             }
                                         }
                                     }).start();
-                                    ActivityCollector.finishAll();
-                                    LoginActivity.actionStart(view.getContext());
                                     break;
                                 case 1:
                                     ShareUtil.hideKeyBoard(view.getContext(), view);

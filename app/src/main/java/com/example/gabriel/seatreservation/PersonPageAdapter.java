@@ -2,11 +2,18 @@ package com.example.gabriel.seatreservation;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.gabriel.seatreservation.utils.Configure;
+import com.example.gabriel.seatreservation.utils.LoginUtil;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -40,12 +47,6 @@ public class PersonPageAdapter extends RecyclerView.Adapter<PersonPageAdapter.Vi
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_page_person,
                 parent, false);
         final ViewHolder holder = new ViewHolder(view);
-        /*holder.mPersonPageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mOnItemClickListener.onItemClick(view,(int)view.getTag());
-            }
-        });*/
 
         holder.mPersonPageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,11 +55,17 @@ public class PersonPageAdapter extends RecyclerView.Adapter<PersonPageAdapter.Vi
                 PersonPage personPage = mPersonPageList.get(position);
                 switch (position){
                     case 0:
-                        LoginActivity.actionStart(view.getContext());
+                        Log.d("abc", "ok");
+                        LoginUtil.checkLogin(view.getContext(), new LoginUtil.LoginForCallBack() {
+                            @Override
+                            public void callBack() {
+                                Log.d("abc", "1234");
+                                //TODO start AccountActivity
+                            }
+                        });
                         break;
                     case 2:
-                        Intent intent = new Intent(view.getContext(), SettingsActivity.class);
-                        view.getContext().startActivity(intent);
+                        SettingsActivity.actionStart(view.getContext());
                         break;
                 }
 

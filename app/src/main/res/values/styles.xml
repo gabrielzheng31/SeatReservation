@@ -9,6 +9,7 @@
         <item name="colorControlNormal">#c5c5c5</item>
         <item name="colorControlActivated">#ffffff</item>
         <item name="colorControlHighlight">#ffffff</item>
+        <item name="android:timePickerDialogTheme">@style/TimePickerDialog</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -16,8 +17,10 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-
     </style>
 
+    <style name="TimePickerDialog" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:colorAccent">@color/colorPrimary</item>
+    </style>
 
 </resources>

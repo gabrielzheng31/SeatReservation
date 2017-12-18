@@ -165,7 +165,7 @@ public class LoginActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         ActivityCollector.removeActivity(this);
-        if (Configure.CALLBACK != null)
-            Configure.CALLBACK.postExec();
+        /*if (Configure.CALLBACK != null)
+            Configure.CALLBACK.postExec();*/
     }
 }

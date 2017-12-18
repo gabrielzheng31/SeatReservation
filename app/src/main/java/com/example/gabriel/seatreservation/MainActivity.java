@@ -2,6 +2,7 @@ package com.example.gabriel.seatreservation;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.PagerAdapter;
@@ -28,12 +29,11 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
-
     private View view_main, view_status, view_person;
     private ViewPager viewPager;
     private List<View> viewList = new ArrayList<View>();;
     private List<PersonPage> mPersonPageList = new ArrayList<>();
-    private boolean view_status_logoff, view_status_login_0, view_status_login_1;
+    private boolean view_status_logoff, view_status_reserved;
 
 //    private List<Fragment> fragments = new ArrayList<>();
 
@@ -62,11 +62,18 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initAppData(MainActivity.this);
+
+        /**
+         * 主界面使用ViewPager实现BottomNavigation
+         */
         viewPager = findViewById(R.id.viewpager);
         final LayoutInflater inflater = getLayoutInflater();
-        view_main = inflater.inflate(R.layout.page_main, null);
-        view_person = inflater.inflate(R.layout.page_person, null);
 
+        /**
+         * 座位预约界面，使用CardView实现
+         */
+        view_main = inflater.inflate(R.layout.page_main, null);
         CardView cardView = view_main.findViewById(R.id.cardview);
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,66 +81,54 @@ public class MainActivity extends BaseActivity {
                 SeatActivity.actionStart(view.getContext());
             }
         });
-
         viewList.add(view_main);
 
-
-
-        LoginUtil.checkLogin(MainActivity.this, new LoginUtil.LoginForCallBack() {
-            @Override
-            public void callBack() {
-                if (Configure.TOKEN == null || TextUtils.isEmpty(Configure.TOKEN)) {
-                    view_status_logoff = true;
-                } else {
-                    String address="http://172.26.40.36:8080/SeatReservation/login";
+        if (Configure.TOKEN == null || TextUtils.isEmpty(Configure.TOKEN)) {
+            view_status_logoff = true;
+        } else {
+            view_status_logoff = false;
+            String address="http://138.68.254.73:8080/SeatReservation/getuserinfo";
 //                    String address="http://192.168.1.7:8080/SeatReservation/login";
-                    HttpUtil.GetReservedStatus(Configure.TOKEN, address, new HttpCallbackListener() {
-                        @Override
-                        public void onFinish(String response) {
-                            Log.d("test", response);
-                            Gson gson = new Gson();
-                            UserData userData = gson.fromJson(response, UserData.class);
-                            switch (userData.getResCode()) {
-                                case 0:
-                                    Configure.STATUS = userData.getResStatus();
-                                    break;
-                                case 1:
-                                    break;
-                            }
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-                    });
-                    if (Configure.STATUS == true) {
-                        view_status_login_1 = true;
-                    }
-                    else {
-                        view_status_login_0 = true;
+            HttpUtil.GetReservedStatus(Configure.TOKEN, address, new HttpCallbackListener() {
+                @Override
+                public void onFinish(String response) {
+                    Log.d("test", response);
+                    Gson gson = new Gson();
+                    UserData userData = gson.fromJson(response, UserData.class);
+                    switch (userData.getResCode()) {
+                        case 0:
+                            view_status_reserved = false;
+                            break;
+                        case 1:
+                            view_status_reserved = true;
+                            break;
                     }
                 }
-            }
-        });
+
+                @Override
+                public void onError(Exception e) {
+
+                }
+            });
+        }
 
         if (view_status_logoff) {
             view_status = inflater.inflate(R.layout.page_status_logoff, null);
-        } else if (view_status_login_0) {
-            view_status = inflater.inflate(R.layout.page_status_login_0, null);
-        } else {
+        } else if (view_status_reserved) {
             view_status = inflater.inflate(R.layout.page_status_login_1, null);
+        } else {
+            view_status = inflater.inflate(R.layout.page_status_login_0, null);
         }
 
         viewList.add(view_status);
 
+        view_person = inflater.inflate(R.layout.page_person, null);
         initPersonPage();
         RecyclerView recyclerView = view_person.findViewById(R.id.page_person_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         PersonPageAdapter adapter = new PersonPageAdapter(mPersonPageList);
         recyclerView.setAdapter(adapter);
-
         viewList.add(view_person);
 
         PagerAdapter pagerAdapter = new PagerAdapter() {
@@ -182,10 +177,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-
-
         viewPager.setAdapter(pagerAdapter);
-
 
         final BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -209,9 +201,9 @@ public class MainActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
-    /*public static void init(Context mContext) {
-        Configure.USERID = SharedUtil.getString(mContext, "USERID");
-        if (!Util.checkNULL(Configure.USERID))
-            getUserInfo();
-    }*/
+
+    public static void initAppData(Context mContext) {
+        SharedPreferences preferences = mContext.getSharedPreferences("user", 0);
+        Configure.TOKEN = preferences.getString("TOKEN", "");
+    }
 }

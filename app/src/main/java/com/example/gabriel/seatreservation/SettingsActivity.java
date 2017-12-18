@@ -1,11 +1,15 @@
 package com.example.gabriel.seatreservation;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.gabriel.seatreservation.utils.Configure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +41,11 @@ public class SettingsActivity extends BaseActivity {
         mSettingLists.add(logoff);
         Settings quit = new Settings(R.string.settings_quit);
         mSettingLists.add(quit);
+    }
+
+    public static void actionStart(Context context) {
+        Intent intent = new Intent(context, SettingsActivity.class);
+        context.startActivity(intent);
     }
 
 }

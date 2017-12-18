@@ -8,6 +8,7 @@ import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.gabriel.seatreservation.ActivityCollector;
 import com.example.gabriel.seatreservation.LoginActivity;
 
 import java.lang.ref.WeakReference;
@@ -20,7 +21,7 @@ public class LoginUtil {
 
     public static void checkLogin(final Context context, final LoginForCallBack callBack) {
         // 弱引用，防止内存泄露，
-        WeakReference<Context> reference= new WeakReference<Context>(context);
+        WeakReference<Context> reference= new WeakReference<>(context);
 
         if (TextUtils.isEmpty(Configure.TOKEN)) { // 判断是否登录，否返回true
 
@@ -30,8 +31,6 @@ public class LoginUtil {
                 @Override
                 public void postExec() {
                     // 登录回调后执行登录回调前需要做的操作
-                    SharedPreferences preferences = context.getSharedPreferences("user", 0);
-                    Configure.TOKEN = preferences.getString("TOKEN", "");
                     if (!Configure.TOKEN.isEmpty()) {
                         // 这里需要再次判断是否登录，防止用户取消登录，取消则不执行登录成功需要执行的回调操作
                         callBack.callBack();
@@ -68,7 +67,7 @@ public class LoginUtil {
         void postExec();
     }
 
-//    @FunctionalInterface//Java8 函数注解，没有升级java8的去掉这一句
+    @FunctionalInterface//Java8 函数注解，没有升级java8的去掉这一句
     public interface LoginForCallBack {
         void callBack();
     }

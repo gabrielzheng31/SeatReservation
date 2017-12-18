@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.gabriel.seatreservation.utils.Configure;
+import com.example.gabriel.seatreservation.utils.LoginUtil;
 
 import java.util.List;
 
@@ -49,23 +53,21 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
                 Settings settings = mSettingsList.get(position);
                 switch (position){
                     case 2:
-                        AlertDialog.Builder dialog_logoff = new AlertDialog.Builder(view.getContext());
-                        dialog_logoff.setTitle("注销");
-                        dialog_logoff.setMessage("您确定要退出登录吗？");
-                        dialog_logoff.setCancelable(true);
-                        dialog_logoff.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                        if (TextUtils.isEmpty(Configure.TOKEN)) {
+                            AlertDialog.Builder dialog_logoff = new AlertDialog.Builder(view.getContext());
+                            dialog_logoff.setTitle("您尚未登录");
+                            dialog_logoff.setCancelable(true);
+                            dialog_logoff.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
 
-                            }
-                        });
-                        dialog_logoff.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        });
-                        dialog_logoff.show();
+                                }
+                            });
+                            dialog_logoff.show();
+                        } else {
+                            Intent intent = new Intent("com.example.gabriel.seatreservation.LOG_OFF");
+                            view.getContext().sendBroadcast(intent);
+                        }
                         break;
                     case 3:
                         AlertDialog.Builder dialog_quit = new AlertDialog.Builder(view.getContext());
